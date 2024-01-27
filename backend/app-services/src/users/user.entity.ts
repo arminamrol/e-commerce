@@ -12,28 +12,31 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ default: '' })
   firstName: string;
 
-  @Column()
+  @Column({ default: '' })
   lastName: string;
 
-  @Column()
+  @Column({ default: '' })
   userName: string;
 
   @Column()
   email: string;
 
   @Column()
+  password: string;
+
+  @Column({ default: '' })
   address: string;
 
-  @Column()
+  @Column({ nullable: true })
   phone: number;
 
-  @Column()
-  wishlist: string;
-  orders;
-  payments;
+  // @Column()
+  // wishlist: string;
+  // orders;
+  // payments;
   @AfterInsert()
   logInsert() {
     console.log('Inserted User with id', this.id);
