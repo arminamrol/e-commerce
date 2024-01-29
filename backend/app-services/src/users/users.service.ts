@@ -43,4 +43,13 @@ export class UsersService {
 
     return user;
   }
+  async find() {
+    const count = await this.repo.count();
+    const users = await this.repo.find();
+    const response = {
+      count,
+      users,
+    };
+    return response;
+  }
 }

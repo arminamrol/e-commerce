@@ -28,4 +28,9 @@ export class UsersController {
     }
     return user;
   }
+
+  @Get()
+  findAllUsers() {
+    return this.usersService.find();
+  }
 }

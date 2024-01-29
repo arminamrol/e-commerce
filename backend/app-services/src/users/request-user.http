@@ -11,3 +11,6 @@ Content-Type: application/json
 {
     "email":"test@test.com" 
 }
+
+### Find all users and count
+GET http://localhost:3000/api/users
