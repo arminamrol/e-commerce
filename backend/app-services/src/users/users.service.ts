@@ -52,4 +52,11 @@ export class UsersService {
     };
     return response;
   }
+  async deleteById(id: number) {
+    const user = await this.findOneById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return this.repo.remove(user);
+  }
 }
