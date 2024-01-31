@@ -4,13 +4,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { scrypt as _scrypt, randomBytes } from 'crypto';
 import { CreateUserDto } from 'src/users/dtos/create-user.dto';
 import { UsersService } from 'src/users/users.service';
-import { promisify } from 'util';
+import { comparePassword, hashPassword } from 'src/utils/hashingWithSalt.util';
 import { LoginDto } from './dtos/login.dto';
-
-const scrypt = promisify(_scrypt);
 
 @Injectable()
 export class AuthService {
@@ -33,30 +30,13 @@ export class AuthService {
     return user;
   }
 
-  private async hashPassword(password: string) {
-    const salt = randomBytes(16).toString('hex');
-    const hash = (await scrypt(password, salt, 64)) as Buffer;
-    const result = salt + '.' + hash.toString('hex');
-    return result;
-  }
-  private async comparePassword(
-    storedPassword: string,
-    suppliedPassword: string,
-  ) {
-    const [salt, storedHash] = storedPassword.split('.');
-    const hash = (await scrypt(suppliedPassword, salt, 64)) as Buffer;
-    return storedHash === hash.toString('hex');
-  }
   async login(body: LoginDto) {
     const user = await this.findUser(body);
 
     if (!user) {
       throw new NotFoundException('user not found');
     }
-    const isPasswordValid = await this.comparePassword(
-      user.password,
-      body.password,
-    );
+    const isPasswordValid = await comparePassword(user.password, body.password);
     if (!isPasswordValid) {
       throw new BadRequestException('password is wrong');
     }
@@ -74,7 +54,7 @@ export class AuthService {
       throw new BadRequestException('User already exists');
     }
     if (!user) {
-      const hashedPassword = await this.hashPassword(body.password);
+      const hashedPassword = await hashPassword(body.password);
       const user = await this.usersService.create(body.email, hashedPassword);
       return user;
     }
