@@ -49,13 +49,9 @@ export class UsersService {
     return user;
   }
   async find() {
-    const count = await this.repo.count();
     const users = await this.repo.find();
-    const response = {
-      count,
-      users,
-    };
-    return response;
+
+    return users;
   }
   async deleteById(id: number) {
     const user = await this.findOneById(id);
