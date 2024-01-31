@@ -24,9 +24,6 @@ export class SerializeInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, handler: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
-    console.log('banRoutes', this.banRoutes);
-    console.log('requestUrl', request.url);
-    console.log(this.banRoutes.includes(request.url));
 
     if (this.banRoutes.some((route) => request.url.endsWith(route))) {
       return handler.handle();
