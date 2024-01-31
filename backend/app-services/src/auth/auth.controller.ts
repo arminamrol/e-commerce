@@ -2,6 +2,8 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dtos/create-user.dto';
 
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { UserDto } from 'src/users/dtos/user.dto';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
 
@@ -9,6 +11,7 @@ import { LoginDto } from './dtos/login.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Serialize(UserDto)
   @Post('register')
   async register(@Body() body: CreateUserDto) {
     const user = await this.authService.register(body);
