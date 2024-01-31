@@ -1,5 +1,12 @@
 // src/auth/auth.controller.ts
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dtos/create-user.dto';
 
 import { UsersService } from 'src/users/users.service';
@@ -24,7 +31,7 @@ export class AuthController {
       return user;
     }
   }
-
+  @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(@Body() body: LoginDto) {
     const user = await this.authService.login(body);
