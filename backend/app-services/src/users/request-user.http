@@ -14,6 +14,7 @@ Content-Type: application/json
 
 ### Find all users and count
 GET http://localhost:3000/api/users
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
 
 
 ### Delete user by id
