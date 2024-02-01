@@ -6,11 +6,19 @@ import {
   NotFoundException,
   Param,
   Patch,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/gaurds/auth.gaurd';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { AllUserDto } from './dtos/allUser.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { UserDto } from './dtos/user.dto';
+import { User } from './user.entity';
 import { UsersService } from './users.service';
 
+@Serialize(UserDto, ['/'])
 @Controller('users')
+@UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -32,9 +40,11 @@ export class UsersController {
     return user;
   }
 
+  @Serialize(AllUserDto)
   @Get()
-  findAllUsers() {
-    return this.usersService.find();
+  async findAllUsers(): Promise<{ count: number; users: User[] }> {
+    const users = await this.usersService.find();
+    return { count: users.length, users };
   }
 
   @Delete('/user/:id')

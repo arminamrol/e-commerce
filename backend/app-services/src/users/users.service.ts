@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { hashPassword } from 'src/utils/hashingWithSalt.util';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 
@@ -48,13 +49,9 @@ export class UsersService {
     return user;
   }
   async find() {
-    const count = await this.repo.count();
     const users = await this.repo.find();
-    const response = {
-      count,
-      users,
-    };
-    return response;
+
+    return users;
   }
   async deleteById(id: number) {
     const user = await this.findOneById(id);
@@ -80,6 +77,9 @@ export class UsersService {
       if (phoneAlreadyExists && phoneAlreadyExists.id !== id) {
         throw new BadRequestException('Phone already exists');
       }
+    }
+    if (attrs.password) {
+      attrs.password = await hashPassword(attrs.password);
     }
     Object.assign(user, attrs);
     return this.repo.save(user);
