@@ -4,8 +4,11 @@ import {
   AfterUpdate,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Role } from './role.entity';
 
 @Entity()
 export class User {
@@ -32,6 +35,10 @@ export class User {
 
   @Column({ nullable: true })
   phone: number;
+
+  @ManyToMany(() => Role)
+  @JoinTable()
+  roles: Role[];
 
   // @Column()
   // wishlist: string;

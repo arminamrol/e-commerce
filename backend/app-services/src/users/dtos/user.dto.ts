@@ -1,4 +1,6 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
+import { Role } from '../role.entity';
+import { RoleDto } from './role.dto';
 
 export class UserDto {
   @Expose()
@@ -15,4 +17,8 @@ export class UserDto {
   lastName: string;
   @Expose()
   address: string;
+
+  @Expose()
+  @Type(() => RoleDto)
+  roles: Role[];
 }

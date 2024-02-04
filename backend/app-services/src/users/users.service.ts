@@ -6,14 +6,31 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { hashPassword } from 'src/utils/hashingWithSalt.util';
 import { Repository } from 'typeorm';
+import { Role } from './role.entity';
 import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private repo: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private repo: Repository<User>,
+    @InjectRepository(Role) private readonly roleRepository: Repository<Role>,
+  ) {}
 
-  create(email: string, password: string) {
-    const user = this.repo.create({ email, password });
+  async create(email: string, password: string) {
+    const defaultRole = await this.roleRepository.findOne({
+      where: { name: 'user' },
+    });
+
+    if (!defaultRole) {
+      console.error(
+        'Default role "user" not found. Make sure it exists in the database.',
+      );
+      // Handle the error accordingly
+      return null;
+    }
+
+    const user = this.repo.create({ email, password, roles: [defaultRole] });
+    console.log(user);
 
     return this.repo.save(user);
   }
@@ -22,15 +39,18 @@ export class UsersService {
     return user;
   }
   findOneByEmail(email: string) {
-    const user = this.repo.findOne({ where: { email } });
+    const user = this.repo.findOne({ where: { email }, relations: ['roles'] });
     return user;
   }
   findOneByUserName(userName: string) {
-    const user = this.repo.findOne({ where: { userName } });
+    const user = this.repo.findOne({
+      where: { userName },
+      relations: ['roles'],
+    });
     return user;
   }
   findOneByPhone(phone: number) {
-    const user = this.repo.findOne({ where: { phone } });
+    const user = this.repo.findOne({ where: { phone }, relations: ['roles'] });
     return user;
   }
   async findUserByField(
@@ -49,7 +69,7 @@ export class UsersService {
     return user;
   }
   async find() {
-    const users = await this.repo.find();
+    const users = await this.repo.find({ relations: ['roles'] });
 
     return users;
   }
