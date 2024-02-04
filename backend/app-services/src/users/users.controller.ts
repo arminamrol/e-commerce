@@ -10,20 +10,23 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/gaurds/auth.gaurd';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Roles } from './decorators/role.decorator';
 import { AllUserDto } from './dtos/allUser.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UpdateRoleDto } from './dtos/updateRole.dto';
 import { UserDto } from './dtos/user.dto';
+import { RolesGuard } from './gaurds/role.gaurd';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Serialize(AllUserDto)
   @Get()
+  @Roles('admin')
   async findAllUsers(): Promise<{ count: number; users: User[] }> {
     const users = await this.usersService.find();
     return { count: users.length, users };
@@ -50,6 +53,7 @@ export class UsersController {
   }
 
   @Delete('/:id')
+  @Roles('admin')
   async deleteUser(@Param('id') id: string) {
     const intId = parseInt(id);
     if (intId) {
@@ -60,6 +64,7 @@ export class UsersController {
 
   @Serialize(UserDto)
   @Patch('/:id')
+  @Roles('admin')
   async updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
     const intId = parseInt(id);
     if (intId) {
@@ -71,6 +76,7 @@ export class UsersController {
     }
   }
   @Serialize(UserDto)
+  @Roles('admin')
   @Patch('user-role/:id')
   async updateRole(@Param('id') id: string, @Body() body: UpdateRoleDto) {
     const intId = parseInt(id);
