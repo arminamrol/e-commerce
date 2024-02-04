@@ -17,6 +17,9 @@ export class RoleService {
   async findRoleByName(name: string): Promise<Role | undefined> {
     return this.roleRepository.findOne({ where: { name } });
   }
+  async findRoleById(id: number): Promise<Role | undefined> {
+    return this.roleRepository.findOne({ where: { id } });
+  }
   async onModuleInit() {
     // Initialize roles during application startup
     await this.initializeRoles();

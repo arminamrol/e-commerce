@@ -57,7 +57,8 @@ export class AuthService {
     if (!user) {
       const hashedPassword = await hashPassword(body.password);
       const user = await this.usersService.create(body.email, hashedPassword);
-      return user;
+
+      return 'user created successfully with id: ' + user.id;
     }
   }
 }

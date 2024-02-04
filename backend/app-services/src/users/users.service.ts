@@ -2,11 +2,13 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hashPassword } from 'src/utils/hashingWithSalt.util';
 import { Repository } from 'typeorm';
 import { Role } from './role.entity';
+import { RoleService } from './role.service';
 import { User } from './user.entity';
 
 @Injectable()
@@ -14,6 +16,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private repo: Repository<User>,
     @InjectRepository(Role) private readonly roleRepository: Repository<Role>,
+    private readonly roleService: RoleService,
   ) {}
 
   async create(email: string, password: string) {
@@ -35,7 +38,7 @@ export class UsersService {
     return this.repo.save(user);
   }
   findOneById(id: number) {
-    const user = this.repo.findOne({ where: { id } });
+    const user = this.repo.findOne({ where: { id }, relations: ['roles'] });
     return user;
   }
   findOneByEmail(email: string) {
@@ -101,7 +104,33 @@ export class UsersService {
     if (attrs.password) {
       attrs.password = await hashPassword(attrs.password);
     }
+    if (attrs.roles) {
+      throw new UnauthorizedException("you can't change roles");
+    }
     Object.assign(user, attrs);
+    return this.repo.save(user);
+  }
+  async assignRoleToUser(id: number, role_id: number): Promise<User> {
+    const user = await this.repo.findOne({
+      where: { id },
+      relations: ['roles'],
+    });
+    const role = await this.roleService.findRoleById(role_id);
+    if (!role) {
+      throw new NotFoundException('Role not found');
+    }
+
+    if (!user.roles) {
+      user.roles = [];
+    }
+    const roleExists = user.roles.some(
+      (existingRole) => existingRole.id === role.id,
+    );
+    if (roleExists) {
+      throw new BadRequestException('User already has this role');
+    }
+
+    user.roles.push(role);
     return this.repo.save(user);
   }
 }

@@ -12,6 +12,7 @@ import { JwtAuthGuard } from 'src/auth/gaurds/auth.gaurd';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { AllUserDto } from './dtos/allUser.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { UpdateRoleDto } from './dtos/updateRole.dto';
 import { UserDto } from './dtos/user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -48,7 +49,6 @@ export class UsersController {
     }
   }
 
-  @Serialize(UserDto)
   @Delete('/:id')
   async deleteUser(@Param('id') id: string) {
     const intId = parseInt(id);
@@ -68,6 +68,18 @@ export class UsersController {
         throw new NotFoundException('user not found');
       }
       return this.usersService.update(parseInt(id), body);
+    }
+  }
+  @Serialize(UserDto)
+  @Patch('user-role/:id')
+  async updateRole(@Param('id') id: string, @Body() body: UpdateRoleDto) {
+    const intId = parseInt(id);
+    if (intId) {
+      const user = await this.usersService.findOneById(intId);
+      if (!user) {
+        throw new NotFoundException('user not found');
+      }
+      return this.usersService.assignRoleToUser(parseInt(id), body.role_id);
     }
   }
 }
