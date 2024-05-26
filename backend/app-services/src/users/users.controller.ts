@@ -9,12 +9,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/gaurds/auth.gaurd';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { Roles } from './decorators/role.decorator';
-import { AllUserDto } from './dtos/allUser.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UpdateRoleDto } from './dtos/updateRole.dto';
-import { UserDto } from './dtos/user.dto';
 import { RolesGuard } from './gaurds/role.gaurd';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -24,7 +21,6 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Serialize(AllUserDto)
   @Get()
   @Roles('admin')
   async findAllUsers(): Promise<{ count: number; users: User[] }> {
@@ -32,14 +28,12 @@ export class UsersController {
     return { count: users.length, users };
   }
 
-  @Serialize(UserDto)
   @Get('/user')
   async findUserByEmail(@Body() body: { email: string }) {
     const user = await this.usersService.findOneByEmail(body.email);
     return user;
   }
 
-  @Serialize(UserDto)
   @Get('/:id')
   async findUserById(@Param('id') id: string) {
     const intId = parseInt(id);
@@ -62,7 +56,6 @@ export class UsersController {
     }
   }
 
-  @Serialize(UserDto)
   @Patch('/:id')
   @Roles('admin')
   async updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
@@ -75,7 +68,6 @@ export class UsersController {
       return this.usersService.update(parseInt(id), body);
     }
   }
-  @Serialize(UserDto)
   @Roles('admin')
   @Patch('user-role/:id')
   async updateRole(@Param('id') id: string, @Body() body: UpdateRoleDto) {

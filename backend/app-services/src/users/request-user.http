@@ -12,9 +12,10 @@ Content-Type: application/json
     "email":"armin@test.com" 
 }
 
+
 ### Find all users and count
 GET http://localhost:3000/api/users
-Authorization: Bearer YOUR_JWT_TOKEN_HERE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJzdWIiOjcsInJvbGVzIjpbInVzZXIiLCJhZG1pbiJdLCJpYXQiOjE3MTY3MDg3NjUsImV4cCI6MTcxNjc5NTE2NX0.BteZGqJGhnLAhGUpqjsqMHViK9jvNaPe01cR41q5AUU
 
 
 ### Delete user by id

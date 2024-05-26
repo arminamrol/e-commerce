@@ -1,47 +1,15 @@
 import {
   CallHandler,
   ExecutionContext,
+  Injectable,
   NestInterceptor,
-  UseInterceptors,
 } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { classToPlain } from 'class-transformer';
+import { Observable, map } from 'rxjs';
 
-interface ClassConstructor {
-  new (...args: any[]): object;
-}
-
-export function Serialize(dto: ClassConstructor, banRoutes: string[] = []) {
-  return UseInterceptors(new SerializeInterceptor(dto, banRoutes));
-}
-
-export class SerializeInterceptor implements NestInterceptor {
-  constructor(
-    private dto: ClassConstructor,
-    private banRoutes: string[],
-  ) {}
-
-  intercept(context: ExecutionContext, handler: CallHandler): Observable<any> {
-    const request = context.switchToHttp().getRequest();
-
-    if (this.banRoutes.some((route) => request.url.endsWith(route))) {
-      return handler.handle();
-    }
-    return handler.handle().pipe(
-      map((data: any) => {
-        if (Array.isArray(data)) {
-          return {
-            count: data.length,
-            users: data.map((item) =>
-              plainToClass(this.dto, item, { excludeExtraneousValues: true }),
-            ),
-          };
-        }
-        return plainToClass(this.dto, data, {
-          excludeExtraneousValues: true,
-        });
-      }),
-    );
+@Injectable()
+export class serilizeInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    return next.handle().pipe(map((data) => classToPlain(data)));
   }
 }

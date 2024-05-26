@@ -1,3 +1,5 @@
+import { Exclude } from 'class-transformer';
+import { Product } from 'src/products/product.entity';
 import {
   AfterInsert,
   AfterRemove,
@@ -6,6 +8,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Role } from './role.entity';
@@ -28,6 +31,7 @@ export class User {
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column({ default: '' })
@@ -36,9 +40,12 @@ export class User {
   @Column({ nullable: true })
   phone: number;
 
-  @ManyToMany(() => Role)
+  @ManyToMany(() => Role, (role) => role.name)
   @JoinTable()
   roles: Role[];
+
+  @OneToMany(() => Product, (product) => product.title)
+  products: Product[];
 
   // @Column()
   // wishlist: string;

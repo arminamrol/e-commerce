@@ -1,0 +1,17 @@
+### get products
+
+GET http://localhost:3000/api/products
+
+
+
+### create product
+
+POST http://localhost:3000/api/products/product
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJzdWIiOjcsInJvbGVzIjpbInVzZXIiLCJhZG1pbiJdLCJpYXQiOjE3MTY3MDg3NjUsImV4cCI6MTcxNjc5NTE2NX0.BteZGqJGhnLAhGUpqjsqMHViK9jvNaPe01cR41q5AUU
+Content-Type: application/json
+
+{
+    "title":"test3 product",
+    "price":150000,
+    "count": 11
+}

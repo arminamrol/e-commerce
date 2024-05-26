@@ -1,8 +1,10 @@
 import {
   BadRequestException,
+  ClassSerializerInterceptor,
   Injectable,
   NotFoundException,
   UnauthorizedException,
+  UseInterceptors,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hashPassword } from 'src/utils/hashingWithSalt.util';
@@ -12,6 +14,7 @@ import { RoleService } from './role.service';
 import { User } from './user.entity';
 
 @Injectable()
+@UseInterceptors(ClassSerializerInterceptor)
 export class UsersService {
   constructor(
     @InjectRepository(User) private repo: Repository<User>,
