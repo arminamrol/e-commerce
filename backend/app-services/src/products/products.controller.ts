@@ -50,4 +50,27 @@ export class ProductsController {
     }
     await this.productService.create(body, user);
   }
+
+  @Get('user-products')
+  @UseGuards(JwtAuthGuard)
+  async getUserProducts(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe)
+    page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe)
+    limit: number = 10,
+    @Request() req,
+  ): Promise<Pagination<Product>> {
+    limit = limit > 100 ? 100 : limit;
+    const userId = req.user.userId;
+    const user = await this.userService.findOneById(userId);
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
+    const products = this.productService.getUserProducts(user.id, {
+      page,
+      limit,
+    });
+
+    return products;
+  }
 }

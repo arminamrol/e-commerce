@@ -21,7 +21,7 @@ export class Product {
   @Column({ nullable: false })
   count: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.products)
   @JoinColumn()
   user: User;
 }

@@ -1,17 +1,21 @@
 ### get products
 
-GET http://localhost:3000/api/products?page=2&limit=2
+GET http://localhost:3000/api/products?page=1&limit=10
 
+### get user products
+
+GET http://localhost:3000/api/products/user-products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJzdWIiOjcsInJvbGVzIjpbXSwiaWF0IjoxNzE2NzM1MjAzLCJleHAiOjE3MTY4MjE2MDN9.mXyk5hLmAhdGJQA-wQIKIQ_y9k8dlnFnSFcpJah8b8o
 
 
 ### create product
 
 POST http://localhost:3000/api/products/product
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJzdWIiOjcsInJvbGVzIjpbInVzZXIiLCJhZG1pbiJdLCJpYXQiOjE3MTY3MDg3NjUsImV4cCI6MTcxNjc5NTE2NX0.BteZGqJGhnLAhGUpqjsqMHViK9jvNaPe01cR41q5AUU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFybWluM0B0ZXN0LmNvbSIsInN1YiI6MTcsInJvbGVzIjpbXSwiaWF0IjoxNzE2NzM0MDAzLCJleHAiOjE3MTY4MjA0MDN9.0DNSNOCXXw19E4mrykrbjR-cngL9oKtgLnNcCTR116Q
 Content-Type: application/json
 
 {
-    "title":"test3 product",
+    "title":"test8 product",
     "price":150000,
     "count": 11
 }

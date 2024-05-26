@@ -6,6 +6,7 @@ import {
   AfterUpdate,
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
@@ -40,11 +41,12 @@ export class User {
   @Column({ nullable: true })
   phone: number;
 
-  @ManyToMany(() => Role, (role) => role.name)
+  @ManyToMany(() => Role, (role) => role.name, { cascade: true })
   @JoinTable()
   roles: Role[];
 
   @OneToMany(() => Product, (product) => product.title)
+  @JoinColumn()
   products: Product[];
 
   // @Column()
