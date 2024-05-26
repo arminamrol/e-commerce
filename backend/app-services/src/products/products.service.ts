@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from './dtos/create-product.dto';
@@ -11,10 +16,13 @@ export class ProductsService {
     @InjectRepository(Product)
     private readonly productRepo: Repository<Product>,
   ) {}
+  async findAllProducts(
+    options: IPaginationOptions,
+  ): Promise<Pagination<Product>> {
+    const queryBuilder = this.productRepo.createQueryBuilder('product');
+    queryBuilder.leftJoinAndSelect('product.user', 'user');
 
-  async findAllProducts() {
-    const products = await this.productRepo.find({ relations: ['user'] });
-    return products;
+    return paginate<Product>(queryBuilder, options);
   }
   async create(body: CreateProductDto, user: User) {
     const product = await this.productRepo.save(

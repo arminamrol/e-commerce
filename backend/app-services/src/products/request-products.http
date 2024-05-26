@@ -1,6 +1,6 @@
 ### get products
 
-GET http://localhost:3000/api/products
+GET http://localhost:3000/api/products?page=2&limit=2
 
 
 

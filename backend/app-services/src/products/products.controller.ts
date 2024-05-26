@@ -1,17 +1,22 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Get,
   Inject,
   NotFoundException,
+  ParseIntPipe,
   Post,
+  Query,
   Request,
   Scope,
   UseGuards,
 } from '@nestjs/common';
+import { Pagination } from 'nestjs-typeorm-paginate';
 import { JwtAuthGuard } from 'src/auth/gaurds/auth.gaurd';
 import { UsersService } from 'src/users/users.service';
 import { CreateProductDto } from './dtos/create-product.dto';
+import { Product } from './product.entity';
 import { ProductsService } from './products.service';
 
 @Controller({ path: 'products', scope: Scope.REQUEST })
@@ -22,9 +27,17 @@ export class ProductsController {
   ) {}
 
   @Get()
-  async getAllProducts() {
-    const products = await this.productService.findAllProducts();
-    return products;
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe)
+    page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe)
+    limit: number = 10,
+  ): Promise<Pagination<Product>> {
+    limit = limit > 100 ? 100 : limit;
+    return this.productService.findAllProducts({
+      page,
+      limit,
+    });
   }
 
   @Post('product')
