@@ -49,8 +49,10 @@ export class User {
   @JoinColumn()
   products: Product[];
 
+  @Exclude()
   @Column({ nullable: true, type: 'text' })
   twoFASecret: string;
+  @Exclude()
   @Column({ default: false, type: 'boolean' })
   enable2FA: boolean;
 
