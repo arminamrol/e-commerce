@@ -15,7 +15,7 @@ Content-Type: application/json
 
 ### Find all users and count
 GET http://localhost:3000/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJzdWIiOjcsInJvbGVzIjpbInVzZXIiLCJhZG1pbiJdLCJpYXQiOjE3MTY3MDg3NjUsImV4cCI6MTcxNjc5NTE2NX0.BteZGqJGhnLAhGUpqjsqMHViK9jvNaPe01cR41q5AUU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwic3ViIjoxMSwicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl0sImlhdCI6MTcxNzU4NjMxMiwiZXhwIjoxNzE3NjcyNzEyfQ.ZwIdgzklXe7Whek9eMpz7B6mNqjuQ88T0HdIAtuWFi8
 
 
 ### Delete user by id

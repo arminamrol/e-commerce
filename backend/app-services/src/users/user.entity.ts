@@ -41,13 +41,18 @@ export class User {
   @Column({ nullable: true })
   phone: number;
 
-  @ManyToMany(() => Role, (role) => role.name, { cascade: true })
-  @JoinTable()
+  @ManyToMany(() => Role, (role) => role.name)
+  @JoinTable({ name: 'user_roles' })
   roles: Role[];
 
-  @OneToMany(() => Product, (product) => product.title)
+  @OneToMany(() => Product, (product) => product.title, { cascade: true })
   @JoinColumn()
   products: Product[];
+
+  @Column({ nullable: true, type: 'text' })
+  twoFASecret: string;
+  @Column({ default: false, type: 'boolean' })
+  enable2FA: boolean;
 
   // @Column()
   // wishlist: string;

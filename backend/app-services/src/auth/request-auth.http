@@ -4,7 +4,7 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-    "email":"armin3@test.com",
+    "email":"admin@test.com",
     "password":"123456"
 }
 
@@ -14,6 +14,27 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email":"test@test.com",
+    "email":"admin@test.com",
     "password":"123456"
+}
+
+
+### enable two step
+GET http://localhost:3000/api/auth/enable2fa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwic3ViIjoxMSwicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl0sImlhdCI6MTcxNzY2MjQ4MCwiZXhwIjoxNzE3NzQ4ODgwfQ.CXGzT0__IAf0QycsfeODtpPxT0l20pyhPukFgnRVrH0
+
+### disable two step
+GET http://localhost:3000/api/auth/disable2fa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwic3ViIjoxMSwicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl0sImlhdCI6MTcxNzY2MjQ4MCwiZXhwIjoxNzE3NzQ4ODgwfQ.CXGzT0__IAf0QycsfeODtpPxT0l20pyhPukFgnRVrH0
+
+
+
+### validate twostep
+POST http://localhost:3000/api/auth/verify2fa
+Authorization: Bearer
+Content-Type: application/json
+
+{
+    "userId": 1,
+    "token":""
 }

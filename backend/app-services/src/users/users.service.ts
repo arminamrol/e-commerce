@@ -136,4 +136,20 @@ export class UsersService {
     user.roles.push(role);
     return this.repo.save(user);
   }
+
+  async enable2FA(userId, secret: string) {
+    return this.repo.update(
+      { id: userId },
+      {
+        twoFASecret: secret,
+        enable2FA: true,
+      },
+    );
+  }
+  async disable2FA(userId) {
+    return this.repo.update(
+      { id: userId },
+      { enable2FA: false, twoFASecret: null },
+    );
+  }
 }

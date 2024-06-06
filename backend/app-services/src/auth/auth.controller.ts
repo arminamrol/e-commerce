@@ -1,9 +1,20 @@
 // src/auth/auth.controller.ts
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dtos/create-user.dto';
 
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
+import { ValidateDto } from './dtos/validate2fa.dto';
+import { JwtAuthGuard } from './gaurds/auth.gaurd';
 
 @Controller('auth')
 export class AuthController {
@@ -19,5 +30,28 @@ export class AuthController {
   async login(@Body() body: LoginDto) {
     const user = await this.authService.login(body);
     return user;
+  }
+
+  @Get('/enable2fa')
+  @UseGuards(JwtAuthGuard)
+  async enable2FA(@Request() req) {
+    const userId = req.user.userId;
+    const user = await this.authService.enable2FA(userId);
+    return user;
+  }
+
+  @Get('/disable2fa')
+  @UseGuards(JwtAuthGuard)
+  async disable2FA(@Request() req) {
+    const userId = req.user.userId;
+    const user = await this.authService.disable2FA(userId);
+    return user;
+  }
+
+  @Post('/verify2fa')
+  async verify2FA(@Body() body: ValidateDto) {
+    const { token, userId } = body;
+    const result = await this.authService.validate2FA(userId, token);
+    return result;
   }
 }
