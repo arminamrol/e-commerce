@@ -1,9 +1,11 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import configuration from 'config/configuration';
+import { typeOrmAsyncConfig } from 'db/data-source';
+import { validateEnv } from 'env.vlidation';
 import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './common/middlewares/logger/logger.middleware';
-import { createTypeOrmOptions } from './orm.config';
 import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
 
@@ -11,13 +13,12 @@ import { UsersModule } from './users/users.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`,
+      // envFilePath: `.env.${process.env.NODE_ENV}`,
+      envFilePath: `.env.dev`,
+      load: [configuration],
+      validate: validateEnv,
     }),
-    TypeOrmModule.forRootAsync({
-      useFactory: async (configService: ConfigService) =>
-        await createTypeOrmOptions(configService),
-      inject: [ConfigService],
-    }),
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     UsersModule,
     AuthModule,
     ProductsModule,

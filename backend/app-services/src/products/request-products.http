@@ -5,17 +5,17 @@ GET http://localhost:3000/api/products?page=1&limit=10
 ### get user products
 
 GET http://localhost:3000/api/products/user-products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwic3ViIjoxMSwicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl0sImlhdCI6MTcxNzU4NjMxMiwiZXhwIjoxNzE3NjcyNzEyfQ.ZwIdgzklXe7Whek9eMpz7B6mNqjuQ88T0HdIAtuWFi8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwic3ViIjoxNCwicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl0sImlhdCI6MTcxNzgzNzYxOCwiZXhwIjoxNzE3OTI0MDE4fQ.0TCpBhn40KLjMhlteebKwMwc2Xw1GUDms-X12MRUnY0
 
 
 ### create product
 
 POST http://localhost:3000/api/products/product
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwic3ViIjoxMSwicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl0sImlhdCI6MTcxNzU4NjMxMiwiZXhwIjoxNzE3NjcyNzEyfQ.ZwIdgzklXe7Whek9eMpz7B6mNqjuQ88T0HdIAtuWFi8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwic3ViIjoxNCwicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl0sImlhdCI6MTcxNzgzNzYxOCwiZXhwIjoxNzE3OTI0MDE4fQ.0TCpBhn40KLjMhlteebKwMwc2Xw1GUDms-X12MRUnY0
 Content-Type: application/json
 
 {
-    "title":"test8 product",
+    "title":"test2 product",
     "price":150000,
     "count": 11
 }
