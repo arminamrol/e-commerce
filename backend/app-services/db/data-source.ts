@@ -5,8 +5,6 @@ import {
 } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-console.log(process.env.DB_HOST);
-
 export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
   inject: [ConfigService],
@@ -34,8 +32,8 @@ const dataSourceOptions: DataSourceOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  entities: ['dist/**/*.entity.js'], //1
+  entities: ['dist/**/*.entity.js'],
   synchronize: false,
-  migrations: ['dist/db/migrations/*.js'], // 3
+  migrations: ['dist/db/migrations/*.js'],
 };
 export default new DataSource(dataSourceOptions);

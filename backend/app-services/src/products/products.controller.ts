@@ -23,7 +23,7 @@ import { ProductsService } from './products.service';
 export class ProductsController {
   constructor(
     private readonly productService: ProductsService,
-    @Inject(UsersService) private readonly userService: UsersService, // Inject UserService
+    @Inject(UsersService) private readonly userService: UsersService,
   ) {}
 
   @Get()

@@ -6,6 +6,6 @@ export class AllUserDto {
   count: number;
 
   @Expose()
-  @Type(() => UserDto) // Specify the type of each element in the array
+  @Type(() => UserDto)
   users: UserDto[];
 }

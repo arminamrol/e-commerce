@@ -18,6 +18,5 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       email: payload.email,
       roles: payload.roles,
     };
-    // This attaches the user object to the request object
   }
 }

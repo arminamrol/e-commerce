@@ -31,12 +31,10 @@ export class UsersService {
       console.error(
         'Default role "user" not found. Make sure it exists in the database.',
       );
-      // Handle the error accordingly
       return null;
     }
 
     const user = this.repo.create({ email, password, roles: [defaultRole] });
-    console.log(user);
 
     return this.repo.save(user);
   }

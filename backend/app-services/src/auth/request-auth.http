@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ### enable two step
 GET http://localhost:3000/api/auth/enable2fa
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwic3ViIjoxMSwicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl0sImlhdCI6MTcxNzY2MjQ4MCwiZXhwIjoxNzE3NzQ4ODgwfQ.CXGzT0__IAf0QycsfeODtpPxT0l20pyhPukFgnRVrH0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwic3ViIjoxLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaWF0IjoxNzIyNjk0NjQwLCJleHAiOjE3MjI3ODEwNDB9.KB7_TFtZ6JKHsWaGwx4v51qtb_yTE6R26vbf8rypM0E
 
 ### disable two step
 GET http://localhost:3000/api/auth/disable2fa

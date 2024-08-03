@@ -15,7 +15,16 @@ import { UpdateRoleDto } from './dtos/updateRole.dto';
 import { RolesGuard } from './gaurds/role.gaurd';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
-
+import {
+  FindAllUsersSwagger,
+  FindUserByEmailSwagger,
+  FindUserByIdSwagger,
+  DeleteUserSwagger,
+  UpdateUserSwagger,
+  UpdateRoleSwagger,
+} from './users.swagger';
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('Users')
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class UsersController {
@@ -23,18 +32,21 @@ export class UsersController {
 
   @Get()
   @Roles('admin')
+  @FindAllUsersSwagger()
   async findAllUsers(): Promise<{ count: number; users: User[] }> {
     const users = await this.usersService.find();
     return { count: users.length, users };
   }
 
   @Get('/user')
+  @FindUserByEmailSwagger()
   async findUserByEmail(@Body() body: { email: string }) {
     const user = await this.usersService.findOneByEmail(body.email);
     return user;
   }
 
   @Get('/:id')
+  @FindUserByIdSwagger()
   async findUserById(@Param('id') id: string) {
     const intId = parseInt(id);
     if (intId) {
@@ -48,6 +60,7 @@ export class UsersController {
 
   @Delete('/:id')
   @Roles('admin')
+  @DeleteUserSwagger()
   async deleteUser(@Param('id') id: string) {
     const intId = parseInt(id);
     if (intId) {
@@ -58,6 +71,7 @@ export class UsersController {
 
   @Patch('/:id')
   @Roles('admin')
+  @UpdateUserSwagger()
   async updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
     const intId = parseInt(id);
     if (intId) {
@@ -70,6 +84,7 @@ export class UsersController {
   }
   @Roles('admin')
   @Patch('user-role/:id')
+  @UpdateRoleSwagger()
   async updateRole(@Param('id') id: string, @Body() body: UpdateRoleDto) {
     const intId = parseInt(id);
     if (intId) {

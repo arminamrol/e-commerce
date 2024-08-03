@@ -21,15 +21,12 @@ export class RoleService {
     return this.roleRepository.findOne({ where: { id } });
   }
   async onModuleInit() {
-    // Initialize roles during application startup
     await this.initializeRoles();
   }
 
   async initializeRoles() {
-    // Create roles if they don't exist
     await this.createRoleIfNotExists('admin');
     await this.createRoleIfNotExists('user');
-    // Add more roles as needed
   }
 
   private async createRoleIfNotExists(roleName: string) {

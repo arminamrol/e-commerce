@@ -56,10 +56,6 @@ export class User {
   @Column({ default: false, type: 'boolean' })
   enable2FA: boolean;
 
-  // @Column()
-  // wishlist: string;
-  // orders;
-  // payments;
   @AfterInsert()
   logInsert() {
     console.log('Inserted User with id', this.id);

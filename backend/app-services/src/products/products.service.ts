@@ -17,7 +17,6 @@ export class ProductsService {
     private readonly productRepo: Repository<Product>,
   ) {}
 
-  //create product
   async create(body: CreateProductDto, user: User) {
     const product = await this.productRepo.save(
       this.productRepo.create({ ...body, user }),
@@ -25,7 +24,6 @@ export class ProductsService {
     return product;
   }
 
-  //findAllProducts
   async findAllProducts(
     options: IPaginationOptions,
   ): Promise<Pagination<Product>> {
@@ -35,7 +33,6 @@ export class ProductsService {
     return paginate<Product>(queryBuilder, options);
   }
 
-  //findClientProducts
   async getUserProducts(
     userId: number,
     options: IPaginationOptions,
