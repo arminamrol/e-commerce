@@ -11,11 +11,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQ
 ### create product
 
 POST http://localhost:3000/api/products/product
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwic3ViIjoxLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaWF0IjoxNzIyNjk0NjQwLCJleHAiOjE3MjI3ODEwNDB9.KB7_TFtZ6JKHsWaGwx4v51qtb_yTE6R26vbf8rypM0E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwic3ViIjoxLCJyb2xlcyI6WyJhZG1pbiIsInVzZXIiXSwiaWF0IjoxNzIyNjk1ODAwLCJleHAiOjE3MjI3ODIyMDB9.ikMuqPZ_svEG5Ct9zLRBuOIWxbE3yHikVWBVMtfTcBk
 Content-Type: application/json
 
 {
-    "title":"test2 product",
-    "price":150000,
-    "count": 11
+    "title":"test24 product",
+    "price":1500,
+    "count": 4
 }

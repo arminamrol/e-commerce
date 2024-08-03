@@ -10,6 +10,10 @@ async function bootstrap() {
   const swaggerConfig = new DocumentBuilder()
     .setTitle('My API')
     .setVersion('1.0')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'JWT',
+    )
     .build();
 
   app.setGlobalPrefix('api');
