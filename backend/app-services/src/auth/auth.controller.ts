@@ -14,7 +14,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
 import { ValidateDto } from './dtos/validate2fa.dto';
 import { JwtAuthGuard } from './gaurds/auth.gaurd';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Disable2FASwagger,
   Enable2FASwagger,
@@ -44,6 +44,7 @@ export class AuthController {
 
   @Get('/enable2fa')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
   @Enable2FASwagger()
   async enable2FA(@Request() req) {
     const userId = req.user.userId;
@@ -53,6 +54,7 @@ export class AuthController {
 
   @Get('/disable2fa')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
   @Disable2FASwagger()
   async disable2FA(@Request() req) {
     const userId = req.user.userId;

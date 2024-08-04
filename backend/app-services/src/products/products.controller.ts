@@ -18,6 +18,7 @@ import { UsersService } from 'src/users/users.service';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { Product } from './product.entity';
 import { ProductsService } from './products.service';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller({ path: 'products', scope: Scope.REQUEST })
 export class ProductsController {
@@ -42,6 +43,7 @@ export class ProductsController {
 
   @Post('product')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
   async createProduct(@Body() body: CreateProductDto, @Request() req) {
     const userId = req.user.userId;
     const user = await this.userService.findOneById(userId);
@@ -53,6 +55,7 @@ export class ProductsController {
 
   @Get('user-products')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
   async getUserProducts(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe)
     page: number = 1,
