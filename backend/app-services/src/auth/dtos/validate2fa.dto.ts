@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class ValidateDto {
   @IsNotEmpty()
@@ -6,6 +6,6 @@ export class ValidateDto {
   token: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  userId: number;
+  @IsString()
+  access_token: string;
 }

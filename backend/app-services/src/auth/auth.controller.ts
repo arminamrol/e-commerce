@@ -65,8 +65,8 @@ export class AuthController {
   @Post('/verify2fa')
   @Verify2FASwagger()
   async verify2FA(@Body() body: ValidateDto) {
-    const { token, userId } = body;
-    const result = await this.authService.validate2FA(userId, token);
+    const { token, access_token } = body;
+    const result = await this.authService.validate2FA(access_token, token);
     return result;
   }
 }

@@ -42,7 +42,17 @@ export class AuthService {
       throw new BadRequestException('password is wrong');
     }
     if (user.enable2FA) {
-      return { message: '2FA required', userId: user.id };
+      const twoFaPayload = {
+        email: user.email,
+        sub: user.id,
+        is2faToken: true,
+      };
+      return {
+        message: '2FA required',
+        access_token: this.jwtService.sign(twoFaPayload, {
+          expiresIn: '2m',
+        }),
+      };
     }
     const payload = {
       email: user.email,
@@ -94,8 +104,15 @@ export class AuthService {
     }
   }
 
-  async validate2FA(userId: number, token: string) {
-    const user = await this.usersService.findOneById(userId);
+  async validate2FA(access_token: string, token: string) {
+    const decoded = this.jwtService.verify(access_token);
+
+    if (decoded.is2faToken !== true) {
+      throw new BadRequestException('Invalid token');
+    }
+
+    const user = await this.usersService.findOneById(decoded.sub);
+
     if (!user) {
       throw new NotFoundException('user not found');
     }
